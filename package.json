@@ -40,5 +40,13 @@
         "tsx": "^3.9.0",
         "typedoc": "^0.23.10",
         "typescript": "^4.7.4"
+    },
+    "homepage": "https://github.com/JacobLinCool/Longest-Common-Sound-Block#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/JacobLinCool/Longest-Common-Sound-Block.git"
+    },
+    "bugs": {
+        "url": "https://github.com/JacobLinCool/Longest-Common-Sound-Block/issues"
     }
 }
