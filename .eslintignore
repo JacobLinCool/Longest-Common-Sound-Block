@@ -1,0 +1,11 @@
+# don't lint node_modules
+node_modules
+
+# don't lint build output
+dist
+
+# ignore docs
+docs
+
+# ignore config files
+jest.config.js
