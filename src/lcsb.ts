@@ -39,6 +39,7 @@ export function lcsb(
                 blocks = 0;
             }
         }
+        blocks = 0;
     }
 
     return {
@@ -89,6 +90,7 @@ export function lcsb_most(
                     blocks = 0;
                 }
             }
+            blocks = 0;
         }
 
         list.push({
