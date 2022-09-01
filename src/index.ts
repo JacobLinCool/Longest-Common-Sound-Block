@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import { OptionValues, program } from "commander";
-import { SoundBlock, partition, lcsb, lcsb_most } from "./lib";
+import { SoundBlock, partition, lcsb, mclsb } from "./lib";
 
 program
     .option("-p, --pool <pool>", "max pooling pool size", Number, 4800)
     .option("-l, --lower <lower>", "partition lower bound (in second)", Number, 1)
     .option("-u, --upper <upper>", "partition upper bound (in second)", Number, 180)
     .option("-m, --mode <mode>", "'pair' or 'most'", "pair")
+    .option("-t, --tolerance <tolerance>", "tolerance (in second)", Number, 0.2)
     .argument("<input...>", "input files")
     .action(async (input: string[], options: OptionValues) => {
         if (input.length < 2) {
@@ -24,7 +25,11 @@ program
 
         if (options.mode === "pair") {
             for (let i = 0; i < sound_blocks.length - 1; i++) {
-                const { duration, start } = lcsb(sound_blocks[i], sound_blocks[i + 1]);
+                const { duration, start } = lcsb(
+                    sound_blocks[i],
+                    sound_blocks[i + 1],
+                    options.tolerance,
+                );
                 console.log(
                     `LCSB between ${input[i]} and ${input[i + 1]}: ${duration} seconds, start at ${
                         start[0]
@@ -32,8 +37,8 @@ program
                 );
             }
         } else if (options.mode === "most") {
-            const most = lcsb_most(sound_blocks);
-            console.log(`Most common LCSB: ${most.duration} seconds`);
+            const most = mclsb(sound_blocks, options.tolerance);
+            console.log(`Most Common LSB: ${most.duration} seconds`);
             for (let i = 0; i < most.starts.length; i++) {
                 if (most.starts[i] === -1) {
                     console.log(`${input[i]}: not exist`);

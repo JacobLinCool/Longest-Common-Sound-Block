@@ -4,11 +4,13 @@ import { SoundBlock } from "./types";
  * Find the longest common sound block between two sound block sequences.
  * @param a The first sound block sequence
  * @param b The second sound block sequence
+ * @param tolerance The tolerance for the sound block comparison (in seconds)
  * @returns The longest common sound block
  */
 export function lcsb(
     a: SoundBlock[],
     b: SoundBlock[],
+    tolerance = 0.2,
 ): {
     duration: number;
     start: [number, number];
@@ -19,13 +21,13 @@ export function lcsb(
     let [duration, blocks, start_a, start_b] = [0, 0, 0, 0];
     for (let i = 0; i < m; i++) {
         for (let j = 0; j < n; j++) {
-            if (a[i].duration === b[j].duration) {
+            if (Math.abs(a[i].duration - b[j].duration) <= tolerance) {
                 blocks++;
 
                 if (i === 0 || j === 0) {
-                    dp[i * n + j] = a[i].duration;
+                    dp[i * n + j] = (a[i].duration + b[j].duration) / 2;
                 } else {
-                    dp[i * n + j] = dp[(i - 1) * n + j - 1] + a[i].duration;
+                    dp[i * n + j] = dp[(i - 1) * n + j - 1] + (a[i].duration + b[j].duration) / 2;
                 }
 
                 if (dp[i * n + j] > duration) {
@@ -48,9 +50,13 @@ export function lcsb(
 /**
  * Find the most common longest sound block between many sound block sequences.
  * @param inputs The sound block sequences
+ * @param tolerance The tolerance for the sound block comparison (in seconds)
  * @returns The most common longest sound block
  */
-export function lcsb_most(inputs: SoundBlock[][]): {
+export function lcsb_most(
+    inputs: SoundBlock[][],
+    tolerance = 0.2,
+): {
     duration: number;
     starts: number[];
 } {
@@ -63,13 +69,14 @@ export function lcsb_most(inputs: SoundBlock[][]): {
         let [duration, blocks, final_blocks, start_a, start_b] = [0, 0, 0, 0, 0];
         for (let i = 0; i < m; i++) {
             for (let j = 0; j < n; j++) {
-                if (a[i].duration === b[j].duration) {
+                if (Math.abs(a[i].duration - b[j].duration) <= tolerance) {
                     blocks++;
 
                     if (i === 0 || j === 0) {
-                        dp[i * n + j] = a[i].duration;
+                        dp[i * n + j] = (a[i].duration + b[j].duration) / 2;
                     } else {
-                        dp[i * n + j] = dp[(i - 1) * n + j - 1] + a[i].duration;
+                        dp[i * n + j] =
+                            dp[(i - 1) * n + j - 1] + (a[i].duration + b[j].duration) / 2;
                     }
 
                     if (dp[i * n + j] > duration) {
