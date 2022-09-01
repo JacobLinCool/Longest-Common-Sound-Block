@@ -4,6 +4,8 @@ Find longest common sound block between multiple wav files.
 
 It can be used to find the duration and start point of opening in a drama series soundtracks.
 
+> Finding OP in 9 episodes of an anime series takes 5 seconds on my M1 MBP. Each episode is around 22 minutes long in 16bit mono 48000 Hz wav format.
+
 ## CLI Usage
 
 ```sh
@@ -51,3 +53,20 @@ const most_common = mclsb([partition_a, partition_b, partition_c]);
 
 console.log(most_common);
 ```
+
+## Time Complexity
+
+### Partition
+
+`O(N)`
+
+- `N` is the number of samples in a wav file.
+
+### LCSB
+
+`O(nm)`
+
+- `n` is the number of partitions in the first wav file.
+- `m` is the number of partitions in the second wav file.
+
+`n` and `m` are usually small, so it's almost done in instant.
