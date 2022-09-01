@@ -41,7 +41,7 @@ export function lcsb(
 
     return {
         duration: Math.round(duration * 10) / 10,
-        start: [a[start_a].start, b[start_b].start],
+        start: duration ? [a[start_a].start, b[start_b].start] : [-1, -1],
     };
 }
 
@@ -86,7 +86,7 @@ export function lcsb_most(inputs: SoundBlock[][]): {
 
         list.push({
             blocks: a.slice(start_a, start_a + final_blocks),
-            start: [a[start_a].start, b[start_b].start],
+            start: duration ? [a[start_a].start, b[start_b].start] : [-1, -1],
         });
     }
 
